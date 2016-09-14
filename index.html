@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <title>Scheduling</title>
+
+      <!-- CSS -->
+      <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <link rel="stylesheet" href="css/style.css">
+
+      <!-- JS -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/3.3.2/firebase.js"></script>
+      <script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
+      <script src="js/app.js"></script>
+  </head>
+  <body>
+    <div class="container" ng-app="scheduleApp" ng-controller="mainController">
+      
+      <div class="page-header text-center">       
+        <h1>Schedule</h1>        
+      </div>
+
+      <!-- were doing one day with 1 time slot for simplicity -->
+      <!-- we'll use angular's ng-repeat in a bit to get the other days and times -->
+      <div class="row seven-cols times">
+
+        <div class="col-lg-1 col-md-3 col-sm-4 col-xs-3 text-center" ng-repeat="day in days">
+                  
+          <h2>{{day.name}}</h2>
+          
+          <div class="time-slot" ng-repeat="slot in day.slots">       
+            <input type="checkbox" id="{{ day.name }}-{{ $index }}" ng-model="slot.booked" ng-disabled="slot.booked" ng-click="bookSlot($event)">
+
+            <label for="{{ day.name }}-{{ $index }}">{{ slot.time }}<br>
+              <span ng-if="slot.booked">Booked</span>
+              <span ng-if="!slot.booked">Available</span>
+            </label>
+
+          </div>
+        </div>    
+
+      </div>
+
+      <p class="text-center" style="margin-top: 50px;">    
+        <a href="#" class="btn btn-danger" ng-click="reset()">Reset</a>
+      </p>
+
+    </div> 
+
+    <script>
+          // Initialize Firebase
+          var config = {
+            apiKey: "AIzaSyChsg4xdZoIXcyKoKqzxCns1AbJ1qfNDj4",
+            authDomain: "booking-app-1769f.firebaseapp.com",
+            databaseURL: "https://booking-app-1769f.firebaseio.com",
+            storageBucket: "",
+            messagingSenderId: "654695543978"
+          };
+          firebase.initializeApp(config);
+    </script> 
+
+  </body>
+</html>
